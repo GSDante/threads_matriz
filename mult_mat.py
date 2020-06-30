@@ -23,7 +23,8 @@ def base_2(n):
               
     return True
 
-#Função auxiliar para o uso de threads
+#Funcao executada pela thread
+#A função recebe a linha da matriz A, toda a matriz B, e a linha da matriz de resultado
 def func(lin_a, matriz_b, lin_res):
 	for j in range(len(lin_a)):
 		soma = 0
@@ -86,7 +87,6 @@ if __name__ == '__main__':
 
 		matriz_A = []
 		matriz_B = []
-		resultado = []
 		#Procurando as matrizes no arquivo "Matrizes.zip"
 		with zipfile.ZipFile("Matrizes.zip", "r") as file:
 			for name in file.namelist():
@@ -118,6 +118,7 @@ if __name__ == '__main__':
 						if not values:
 							break
 
+		resultado = np.zeros((len(matriz_A), len(matriz_B))).tolist()
 
 		multiplicar(matriz_A, matriz_B, resultado, metodo)
 		print(resultado)	
