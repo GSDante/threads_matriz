@@ -1,5 +1,5 @@
 import numpy as np 
-from threading import Thread
+import threading 
 import sys
 import zipfile
 
@@ -7,9 +7,6 @@ import zipfile
 #Na linha de comando
 class Error(Exception):
     pass
-
-class LetraError(Error):
-	pass
 
 class QtdArgError(Error):
 	pass
@@ -26,7 +23,34 @@ def base_2(n):
               
     return True
 
+def func(lin_a, matriz_b, lin_res):
+	for j in range(len(lin_a)):
+		soma = 0
+		for k in range(len(lin_a)):
+			soma += lin_a[k]*matriz_b[k][j]
+		lin_res[j] = soma
 
+def multiplicar(matriz_a, matriz_b, resultado, metodo,dim):
+	lin_ = []
+	if(metodo == 'S'):
+		soma = 0
+		for i in range(dim):
+			for j in range(dim):
+				soma = 0
+				for k in range(dim):
+					soma += matriz_a[i][k]*matriz_b[k][j]
+				resultado.append(soma)
+	elif(metodo == 'C'):
+		print('Em desenvolvimento...')
+		threads = []
+		for i in range(dim):
+			t = threading.Thread(target=func, args=(matriz_a[i], matriz_b, resultado[i]))
+			threads.append(t)
+			t.start()
+		for thread in threads:
+			thread.join()
+	else:
+		print('Erro ao escolher o método para efetuar o cálculo.')
 
 if __name__ == '__main__':
 
@@ -47,6 +71,7 @@ if __name__ == '__main__':
 
 		col = int(sys.argv[1])
 		lin = int(sys.argv[1])
+		metodo = sys.argv[2]
 
 		#Variaveis que registram o nome das matrizes A e B
 		#O "Matrizes/" é por conta do .namelist
@@ -55,6 +80,7 @@ if __name__ == '__main__':
 
 		matriz_A = []
 		matriz_B = []
+		resultado = []
 		#Procurando as matrizes no arquivo "Matrizes.zip"
 		with zipfile.ZipFile("Matrizes.zip", "r") as file:
 			for name in file.namelist():
@@ -87,15 +113,15 @@ if __name__ == '__main__':
 							break
 
 
+		multiplicar(matriz_A, matriz_B, resultado, metodo,int(dimension[0]))
+		print(resultado)	
+				
 	#Exceção para dimensão dada errada por linha de comando
 	except ValueError:
 		print("Dimensão inválida")
 		print()
 
-	#Exceção para o tipo de aplicação dado errada por linha de comando		
-	except LetraError:
-		print("Tipo de aplicação errada. Por favor, digite S ou C para um tipo válido de aplicação")
-		print()
+
 		
 	#Exceção para a quantidade de argumentos dada errada por linha de comando
 	except QtdArgError:
