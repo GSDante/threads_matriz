@@ -1,5 +1,7 @@
+import numpy as np
 import threading
-
+#Funcao executada pela thread
+#A função recebe a linha da matriz A, toda a matriz B, e a linha da matriz de resultado
 def func(lin_a, matriz_b, lin_res):
 	for j in range(len(lin_a)):
 		soma = 0
@@ -22,16 +24,18 @@ def multiplicar(matriz_a, matriz_b, resultado, metodo):
 		threads = []
 		for i in range(dim):
 			t = threading.Thread(target=func, args=(matriz_a[i], matriz_b, resultado[i]))
+			t.name = "thread_" + str(i)
 			threads.append(t)
 			t.start()
 		for thread in threads:
+			print(thread.name)
 			thread.join()
 	else:
 		print('Erro ao escolher o método para efetuar o cálculo.')
 
 if(__name__ == '__main__'):
-	ma = [[23, 65, 9], [12, 2, 7], [76, 84, 32]]	  
-	mb = [[35, 24, 8], [10, 36, 15], [17, 76, 43]]
-	res = [[None, None, None], [None, None, None], [None, None, None]]
+	ma = [[93, 34, 12, 6], [9, 37, 23, 47], [81, 69, 33, 10], [65, 23, 98, 56]]	  
+	mb = [[84, 26, 23, 15], [73, 14, 66, 36], [81, 67, 26, 73], [35, 87, 32, 89]]
+	res = np.zeros((len(ma), len(ma))).tolist()
 	multiplicar(ma, mb, res, 'C')
 	print(res)
