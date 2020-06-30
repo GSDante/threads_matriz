@@ -30,8 +30,8 @@ def multiplicar(matriz_a, matriz_b, resultado, metodo):
 		print('Erro ao escolher o método para efetuar o cálculo.')
 
 if(__name__ == '__main__'):
-	ma = [[23, 65, 9], [12, 2, 7], [76, 84, 32]]	  
-	mb = [[35, 24, 8], [10, 36, 15], [17, 76, 43]]
-	res = [[None, None, None], [None, None, None], [None, None, None]]
+	ma = [[23, 65, 9,54], [12, 2, 7,32], [76, 84, 32,21], [21,32,34,53]]	  
+	mb = [[35, 24, 8,43], [32,10, 36, 15], [21,17, 76, 43], [12,12,32,43]]
+	res = [[None, None, None,None], [None, None, None,None], [None, None, None,None], [None,None,None,None]]
 	multiplicar(ma, mb, res, 'C')
 	print(res)

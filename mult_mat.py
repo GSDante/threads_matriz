@@ -23,6 +23,7 @@ def base_2(n):
               
     return True
 
+#Função auxiliar para o uso de threads
 def func(lin_a, matriz_b, lin_res):
 	for j in range(len(lin_a)):
 		soma = 0
@@ -31,7 +32,7 @@ def func(lin_a, matriz_b, lin_res):
 		lin_res[j] = soma
 
 def multiplicar(matriz_a, matriz_b, resultado, metodo,dim):
-	lin_ = []
+	#Operação em sequencial da mutiplicação de matrizes
 	if(metodo == 'S'):
 		soma = 0
 		for i in range(dim):
@@ -40,6 +41,8 @@ def multiplicar(matriz_a, matriz_b, resultado, metodo,dim):
 				for k in range(dim):
 					soma += matriz_a[i][k]*matriz_b[k][j]
 				resultado.append(soma)
+
+	#Multiplição entre matrizes concorretemente utilizando threads por linhas
 	elif(metodo == 'C'):
 		print('Em desenvolvimento...')
 		threads = []
