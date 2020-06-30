@@ -31,7 +31,8 @@ def func(lin_a, matriz_b, lin_res):
 			soma += lin_a[k]*matriz_b[k][j]
 		lin_res[j] = soma
 
-def multiplicar(matriz_a, matriz_b, resultado, metodo,dim):
+def multiplicar(matriz_a, matriz_b, resultado, metodo):
+	dim = len(matriz_a)
 	#Operação em sequencial da mutiplicação de matrizes
 	if(metodo == 'S'):
 		soma = 0
@@ -48,9 +49,11 @@ def multiplicar(matriz_a, matriz_b, resultado, metodo,dim):
 		threads = []
 		for i in range(dim):
 			t = threading.Thread(target=func, args=(matriz_a[i], matriz_b, resultado[i]))
+			t.name = "thread_" + str(i)
 			threads.append(t)
 			t.start()
 		for thread in threads:
+			print(thread.name)
 			thread.join()
 	else:
 		print('Erro ao escolher o método para efetuar o cálculo.')
@@ -116,7 +119,7 @@ if __name__ == '__main__':
 							break
 
 
-		multiplicar(matriz_A, matriz_B, resultado, metodo,int(dimension[0]))
+		multiplicar(matriz_A, matriz_B, resultado, metodo)
 		print(resultado)	
 				
 	#Exceção para dimensão dada errada por linha de comando
