@@ -39,14 +39,12 @@ def multiplicar(matriz_a, matriz_b, resultado, metodo):
 		soma = 0
 		for i in range(dim):
 			#Variavel auxiliar que pega a linha do resultado pra sobrescrever
-			lin_res = resultado[i]
 			for j in range(dim):
 				soma = 0
 				for k in range(dim):
 					soma += matriz_a[i][k]*matriz_b[k][j]
-				lin_res[j] = soma
+				resultado[i][j] = soma
 			#Repassando o valor
-			resultado[i] = lin_res
 
 	#Multiplição entre matrizes concorretemente utilizando threads por linhas
 	elif(metodo == 'C'):
