@@ -38,11 +38,15 @@ def multiplicar(matriz_a, matriz_b, resultado, metodo):
 	if(metodo == 'S'):
 		soma = 0
 		for i in range(dim):
+			#Variavel auxiliar que pega a linha do resultado pra sobrescrever
+			lin_res = resultado[i]
 			for j in range(dim):
 				soma = 0
 				for k in range(dim):
 					soma += matriz_a[i][k]*matriz_b[k][j]
-				resultado.append(soma)
+				lin_res[j] = soma
+			#Repassando o valor
+			resultado[i] = lin_res
 
 	#Multiplição entre matrizes concorretemente utilizando threads por linhas
 	elif(metodo == 'C'):
@@ -117,6 +121,10 @@ if __name__ == '__main__':
 						#Parando no fim da linha
 						if not values:
 							break
+
+		#Filtrando os elemento vazios das matrizes
+		matriz_A = [x for x in matriz_A if x != []]
+		matriz_B = [x for x in matriz_B if x != []]
 
 		resultado = np.zeros((len(matriz_A), len(matriz_B))).tolist()
 
