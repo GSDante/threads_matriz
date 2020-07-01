@@ -2,6 +2,7 @@ import numpy as np
 import threading 
 import sys
 import zipfile
+import time 
 
 #Classes de funções auxiliares para tratamento de exceção 
 #Na linha de comando
@@ -10,6 +11,7 @@ class Error(Exception):
 
 class QtdArgError(Error):
 	pass
+
 
 
 #Função para verificar se o valor está na base 2
@@ -38,25 +40,26 @@ def multiplicar(matriz_a, matriz_b, resultado, metodo):
 	if(metodo == 'S'):
 		soma = 0
 		for i in range(dim):
-			#Variavel auxiliar que pega a linha do resultado pra sobrescrever
 			for j in range(dim):
 				soma = 0
 				for k in range(dim):
 					soma += matriz_a[i][k]*matriz_b[k][j]
 				resultado[i][j] = soma
-			#Repassando o valor
 
 	#Multiplição entre matrizes concorretemente utilizando threads por linhas
 	elif(metodo == 'C'):
-		print('Em desenvolvimento...')
 		threads = []
+		#Criando as threads baseado na quantidade de linhas da matriz
 		for i in range(dim):
 			t = threading.Thread(target=func, args=(matriz_a[i], matriz_b, resultado[i]))
+			
+			#Nome da thread
 			t.name = "thread_" + str(i)
 			threads.append(t)
 			t.start()
+
+		#Coordenandos as threads
 		for thread in threads:
-			print(thread.name)
 			thread.join()
 	else:
 		print('Erro ao escolher o método para efetuar o cálculo.')
@@ -125,10 +128,35 @@ if __name__ == '__main__':
 		matriz_B = [x for x in matriz_B if x != []]
 
 		resultado = np.zeros((len(matriz_A), len(matriz_B))).tolist()
+		
+		#Gravando o tempo nos 20 testes
+		tempo = np.zeros(20)
 
-		multiplicar(matriz_A, matriz_B, resultado, metodo)
-		print(resultado)	
+		for i in range(20):
+			start = time.time()
+			multiplicar(matriz_A, matriz_B, resultado, metodo)
+			end = time.time()
+
+			tempo[i] = (end - start)
+		
+		#Dados estatísticos	
+		tempo_media = np.mean(tempo)
+		tempo_max = np.amax(tempo)
+		tempo_min = np.amin(tempo)
+		tempo_desvio_padrao = np.std(tempo)
 				
+		#Abrindo os .txt para armazenar os dados
+		media_registro = open("Dados/media.txt",'a')
+		max_registro = open("Dados/max.txt",'a')
+		min_registro = open("Dados/min.txt",'a')
+		desvio_padrao_registro = open("Dados/desvio_padrao.txt",'a')
+
+		#Registrando os dados nem .txt
+		media_registro.write(str(tempo_media) + "\n")
+		max_registro.write(str(tempo_max) + "\n")
+		min_registro.write(str(tempo_min) + "\n")
+		desvio_padrao_registro.write(str(tempo_desvio_padrao) + "\n")
+
 	#Exceção para dimensão dada errada por linha de comando
 	except ValueError:
 		print("Dimensão inválida")
