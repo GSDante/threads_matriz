@@ -39,7 +39,9 @@ def plot(tempo_seq, tempos_thr):
 	plt.show()
 
 if(__name__ == '__main__'):
-	tempos_seq = [1, 2, 4, 8, 16, 32, 64, 128, 256, 512]
-	tempos_thr = [1.5, 2.8, 6.6, 20.5, 40.6, 200.3, 534.5, 1002.3]
 	#gerar_tabela(3, [2, 4, 6])
-	plot(tempos_seq, tempos_thr)
+	mini = open('min.txt',  'r')
+	maxi = open('max.txt', 'r')
+	medi = open('media.txt', 'r')
+
+	print(mini)
