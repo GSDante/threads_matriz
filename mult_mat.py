@@ -89,6 +89,7 @@ if __name__ == '__main__':
 		#O "Matrizes/" é por conta do .namelist
 		name_A = "Matrizes/A" + sys.argv[1] + "x" + sys.argv[1] +".txt"
 		name_B = "Matrizes/B" + sys.argv[1] + "x" + sys.argv[1] +".txt"
+		name_Resultado = "Resultados/C" + sys.argv[1] + "x" + sys.argv[1] +".txt"
 
 		matriz_A = []
 		matriz_B = []
@@ -150,6 +151,9 @@ if __name__ == '__main__':
 		max_registro = open("Dados/max.txt",'a')
 		min_registro = open("Dados/min.txt",'a')
 		desvio_padrao_registro = open("Dados/desvio_padrao.txt",'a')
+		resultado_registro = open(name_Resultado,'w+')
+		for i in range(len(resultado)):
+			resultado_registro.write(str(resultado[i]) + "\n")
 
 		#Registrando os dados nem .txt
 		media_registro.write(str(tempo_media) + "\n")
