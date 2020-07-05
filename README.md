@@ -1,4 +1,4 @@
-# threads_matriz
+# Programação Concorrete - Multiplicação de matrizes quadráticas com threads
  ## Operações entre matrizes utilizando threads:
  * Implementação sequencial e concorrente
  * Relatório de análises a partir dos gráficos e das tabelas
